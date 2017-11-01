@@ -1,0 +1,82 @@
+<html>
+<head>
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.min.css"
+	rel="stylesheet" type="text/css" />
+
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.min.js"></script>
+</head>
+<body>
+<div id="waveresponse"></div>
+<div id="status"></div>
+<script type="text/javascript">
+$(document).ready(function(){
+	var accessToken = decodeURI(GetURLParameter('access_token'));			
+          console.log(accessToken);
+		  var response = getDataOnWave()
+	   displayWaveResponse(response);
+
+           //Use this function to get the access token from the URL
+           function GetURLParameter(sParam)
+            {
+              var mainURL = document.location+'';
+              var pageUrls = mainURL.split('#');
+              var sURLVariables = pageUrls[1].split('&');
+              for (var i = 0; i < sURLVariables.length; i++) 
+                {
+                  var sParameterName = sURLVariables[i].split('=');
+                  if (sParameterName[0] == sParam) 
+                    {
+                      return sParameterName[1];
+                      }
+                  }
+               }
+function getDataOnWave(){
+	var returnResponse;
+	//replace the below url with your domain name or yourInstance.salesforce.com
+    var requestUrl = 'https://deloitteplayground.my.salesforce.com/services/data/v41.0/wave/dashboards/0FKB00000004mEqOAI';
+	 //send POST with ajax
+    $.ajax({
+      type: 'GET',
+      async: false, 
+      url : requestUrl,
+      //add the authorization header including the access_token
+      headers : {
+        'Authorization' : 'Bearer '+accessToken,
+         'Content-Type' : 'application/json'
+                  },
+     
+       success : function(response){
+    	   returnResponse = response;
+                            },
+       error: function(response){
+                    displayError(response);
+                            }
+                        });
+	console.log(returnResponse);
+    return returnResponse;
+}
+function displayWaveResponse(response){
+	var jsonstring = JSON.stringify(response);	
+	$('#waveresponse').append(jsonstring);
+
+}
+//If an error message occurred
+function displayError(responseObject){
+  var responseJson = responseObject.responseJSON;
+  var statusMessage = '<p>A problem has occurred, please contact your administrator</p>';
+  $('#status').append(statusMessage);
+   $('<p>',{
+       text : responseJson[0].errorCode+": "+responseJson[0].message
+    }).appendTo($('#status'));
+
+      }
+});
+</script>
+</body>
+</html>
