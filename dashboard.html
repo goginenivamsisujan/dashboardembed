@@ -21,8 +21,8 @@ $(document).ready(function(){
 	var accessToken = decodeURI(GetURLParameter('access_token'));			
           console.log("Access Token is : " + accessToken);
 		  $Lightning.use("c:dashboardEmbed",function(){
-			$Lightning.createComponent("c:lightningdashboard",{},"waveresponse",function(cmp){},"https://deloitteplayground.lightning.force.com",accessToken);
-		  });
+			$Lightning.createComponent("c:lightningdashboard",{},"waveresponse",function(cmp){});
+		  },"https://deloitteplayground.lightning.force.com",accessToken);
            //Use this function to get the access token from the URL
            function GetURLParameter(sParam)
             {
