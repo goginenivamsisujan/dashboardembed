@@ -1,28 +1,54 @@
 <html>
- <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
- </head>
- <body>
- <!--  <h3>REST API With Javascript</h3>
-  <button id="connect">Connect to the REST API</button> -->
-  <script type="text/javascript">
-    $(document).ready(function(){
-     
-     //The clientId and consumerSecret are the ones from the Connected App
-     var clientId = "3MVG9SemV5D80oBcaJQI3h3e1XzT_jFMHMkE74TLZ1QSKbDdhDjlQ99Q9n631O6KIsp23bve13Fo.suoL4L84";
-     var consumerSecret = "107628828278672560";
-     //Authorization endpoint
-     var authEndPoint = " https://login.salesforce.com/services/oauth2/authorize";
-     //response_type must be set to token
-     var responseType = "token";
-     //This is the callback URL from the connected app
-     var redirectURI = "https://dashboardembed.herokuapp.com/dashboard.html";
-     //Construct the URL with the required parameters
-     var requestURL = authEndPoint+'?client_id='+clientId+'&response_type='+responseType+'&redirect_uri='+redirectURI;
-     //redirect the user to the endpoint 
-     window.location = requestURL;
-    
-  })
- </script>
- </body>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>Einstein Analytics + Lightning Out</title>
+</head>
+<body>
+    <button onclick="showDashboard(this);">Show Dashboard</button>
+    <div id="dashboard" />
+    <script src="javascripts/force.oauth.js"></script>
+    <script src="https://deloitteplayground.my.salesforce.com/lightning/lightning.out.js"></script>
+    <script>
+    // Change to URL https://test.salesforce.com for sandboxes
+    var loginURL = 'https://login.salesforce.com';
+
+    // Change this URL to match the custom domain for your org
+    var ltngURL = 'https://deloitteplayground.my.salesforce.com';
+
+    var oauthCallbackURL = window.location.origin + '/dashboardEmbed/oauthcallback.html';
+
+    // The Consumer Key for the Connected App
+    var appId = '3MVG9SemV5D80oBcaJQI3h3e1XzT_jFMHMkE74TLZ1QSKbDdhDjlQ99Q9n631O6KIsp23bve13Fo.suoL4L84';
+
+    if (window.location.origin.indexOf('localhost') >= 0) {
+        // This will be the Consumer Key for the Connected App on localhost
+        appId = '3MVG9SemV5D80oBcaJQI3h3e1XzT_jFMHMkE74TLZ1QSKbDdhDjlQ99Q9n631O6KIsp23bve13Fo.suoL4L84';
+    }
+
+    // Change this if you selected a different name for the Lightning Out Dependency App
+    var loAppName = 'c:loApp';
+
+    // This is the ID of the Analytics dashboard that you wish to display
+    var dashboardId = '0FKB00000004mEqOAI';
+
+    var oauth = force.OAuth.createInstance(appId, loginURL, oauthCallbackURL);
+
+    function showDashboard(el) {
+        oauth.login().then(function(oauthResult) {
+            $Lightning.use(loAppName, function(evt) {
+                var config = {
+                    dashboardId: dashboardId,
+                    width: '1200px',
+                    height: '600px'
+                }
+                $Lightning.createComponent('wave:waveDashboard', config, 'dashboard', function(cmp, msg, err) {
+                    // Hide the login button
+                    el.style.display = 'none';
+                });
+            }, ltngURL, oauthResult.accessToken);
+        });
+    }
+    </script>
+</body>
 </html>
