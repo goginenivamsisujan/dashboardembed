@@ -36,7 +36,9 @@
 
     function showDashboard(el) {
         oauth.login().then(function(oauthResult) {
+            console.log("Authentication successful.");
             $Lightning.use(loAppName, function() {
+                console.log("Loading dashboard.....");
                 $Lightning.createComponent('c:lightningdashboard', 'dashboard', function(cmp, msg, err) {
                     // Hide the login button
                     el.style.display = 'none';
