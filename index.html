@@ -36,13 +36,8 @@
 
     function showDashboard(el) {
         oauth.login().then(function(oauthResult) {
-            $Lightning.use(loAppName, function(evt) {
-                var config = {
-                    dashboardId: dashboardId,
-                    width: '1200px',
-                    height: '600px'
-                }
-                $Lightning.createComponent('wave:waveDashboard', config, 'dashboard', function(cmp, msg, err) {
+            $Lightning.use(loAppName, function() {
+                $Lightning.createComponent('c:lightningdashboard', 'dashboard', function(cmp, msg, err) {
                     // Hide the login button
                     el.style.display = 'none';
                 });
