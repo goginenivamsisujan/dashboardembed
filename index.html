@@ -36,7 +36,7 @@
 
     function showDashboard(el) {
         oauth.login().then(function(oauthResult) {
-            cosole.log("Authenticated successfully");
+            console.log("Authenticated successfully");
             $Lightning.use(loAppName, function(evt) {
                 console.log("Creating lightning component");
                 var config = {
