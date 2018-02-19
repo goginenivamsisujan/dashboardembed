@@ -8,29 +8,29 @@
     <button onclick="showDashboard(this);">Show Dashboard</button>
     <div id="dashboard" />
     <script src="javascripts/force.oauth.js"></script>
-    <script src="https://deloitteplayground.my.salesforce.com/lightning/lightning.out.js"></script>
+    <script src="https://rs.my.salesforce.com/lightning/lightning.out.js"></script>
     <script>
     // Change to URL https://test.salesforce.com for sandboxes
     var loginURL = 'https://login.salesforce.com';
 
     // Change this URL to match the custom domain for your org
-    var ltngURL = 'https://deloitteplayground.lightning.force.com';
+    var ltngURL = 'https://vamsisujan-dev-ed.lightning.force.com';
 
     var oauthCallbackURL = window.location.origin + '/oauthcallback.html';
 
     // The Consumer Key for the Connected App
-    var appId = '3MVG9ZL0ppGP5UrCEN_7Qo0f9Mz6r8iTh9fbHhhu6TiaGY8MfasLD3dmOqJ7i26xHCa5i5ByGQQ2vAJnEB6Sx';
+    var appId = '3MVG9d8..z.hDcPL7xahxq2y0ws7GDtaCvDTAL_9HrhbnnKvBENrsH_JaqTiLr2gq3eC7N2e2V.Wl.1uRQeE9';
 
     if (window.location.origin.indexOf('localhost') >= 0) {
         // This will be the Consumer Key for the Connected App on localhost
-        appId = '3MVG9ZL0ppGP5UrCEN_7Qo0f9Mz6r8iTh9fbHhhu6TiaGY8MfasLD3dmOqJ7i26xHCa5i5ByGQQ2vAJnEB6Sx';
+        appId = '3MVG9d8..z.hDcPL7xahxq2y0ws7GDtaCvDTAL_9HrhbnnKvBENrsH_JaqTiLr2gq3eC7N2e2V.Wl.1uRQeE9';
     }
 
     // Change this if you selected a different name for the Lightning Out Dependency App
     var loAppName = 'c:LightningOutDemo';
 
     // This is the ID of the Analytics dashboard that you wish to display
-    var dashboardId = '0FKB00000004mEqOAI';
+    var dashboardId = '0FK7F0000002UrhWAE';
 
     var oauth = force.OAuth.createInstance(appId, loginURL, oauthCallbackURL);
 
